@@ -8,25 +8,25 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 class UserAccessDashboardMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
-    {
+    // public function handle(Request $request, Closure $next): Response
+    // {
 
-        if (auth()->user()->isAdmin()){
-            return $next($request);
-        }
-        return redirect('/');
+    //     if (auth()->user()->isAdmin()){
+    //         return $next($request);
+    //     }
+    //     return redirect('/');
  
        
+    // }
+
+
+
+    public function handle(Request $request, Closure $next): Response
+{
+    if ($request->user() && $request->user()->isAdmin()) {
+        return $next($request);
     }
 
-
-
-//     public function handle(Request $request, Closure $next): Response
-// {
-//     if ($request->user() && $request->user()->isAdmin()) {
-//         return $next($request);
-//     }
-
-//     return redirect('/');
-// }
+    return redirect('/');
+}
 }

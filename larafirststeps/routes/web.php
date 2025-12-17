@@ -28,13 +28,20 @@ Route::group(['prefix'=>'dashboard' , 'middleware' => ['auth', UserAccessDashboa
 
         'post' => App\Http\Controllers\Dashboard\PostController::class,
         'category' => App\Http\Controllers\Dashboard\CategoryController::class,
-
     ]);
     Route::get('', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 });
+
+
+Route::group(['prefix'=>'blog'], function(){
+
+    Route::get('', [App\Http\Controllers\blog\BlogController::class, 'index'])->name('blog.index');
+    Route::get('detail/{post}', [App\Http\Controllers\blog\BlogController::class, 'show'])->name('blog.show');
+});
+
 
 
 require __DIR__.'/auth.php';
