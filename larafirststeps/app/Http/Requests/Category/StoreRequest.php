@@ -19,7 +19,7 @@ class StoreRequest extends FormRequest
             
 
                 'title' => 'required|min:5|max:500',
-                'slug' => 'required|min:2|max:500|unique:posts',
+                'slug' => 'required|min:2|max:500|unique:categories',
               
         ];
     }

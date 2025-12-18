@@ -21,7 +21,7 @@ class CategorySeeder extends Seeder
      for ($i = 0; $i <= 20; $i++) {
          Category::create([
              'title' => "Category $i"  ,
-             'slug' => "Category- $i ",
+             'slug' => "Category-$i ",
          ]);
      }
     }
