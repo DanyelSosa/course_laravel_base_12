@@ -8,8 +8,11 @@ use Termwind\Components\Raw;
 
 use App\Http\Middleware\UserAccessDashboardMiddleware;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return view('vue');
 });
 
 // Route::get('/dashboard', function () {

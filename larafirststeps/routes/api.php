@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('category/all',[CategoryController::class,'all'] );
-Route::get('category/slug/{category:slug}',[CategoryController::class,'slug'] );
+Route::get('category/slug/{category:slug}',[CategoryController::class,'slug'] ); 
 Route::resource('category', CategoryController::class)->except(['create','edit']);
 
 

@@ -17,5 +17,13 @@
         "postcss": "^8.4.31",
         "tailwindcss": "^3.1.0",
         "vite": "^7.0.7"
+    },
+    "dependencies": {
+        "@oruga-ui/oruga-next": "^0.12.3",
+        "@oruga-ui/theme-oruga": "^0.8.1",
+        "@vitejs/plugin-vue": "^6.0.3",
+        "sass": "^1.97.1",
+        "vue": "^3.5.26",
+        "vue-loader": "^17.4.2"
     }
 }
