@@ -1,9 +1,15 @@
 import { createApp } from 'vue'
 import Oruga from '@oruga-ui/oruga-next'
-//  import '@oruga-ui/theme-oruga/dist/theme.js'
-
 import App from './App.vue'
+import axios from 'axios'
 
-createApp(App)
-  .use(Oruga)
-  .mount('#app')
+import router from './router'
+
+const app = createApp(App)
+
+app.use(Oruga).use(router)
+
+app.config.globalProperties.$axios = axios
+window.axios = axios
+
+app.mount('#app')

@@ -2,21 +2,74 @@
         <div>
         <h1> Post List</h1>
         
-        <o-button @click="clickMe"> Click Me</o-button>
+        <o-table :data="posts.data" :loading="isLoading">
+            <o-table-column field="id" label="ID" v-slot="p">
+                {{ p.row.id }}
+            </o-table-column>
+            <o-table-column field="title" label="TITLE" v-slot="p">
+                {{ p.row.title }}
+            </o-table-column>
+            <o-table-column field="posted" label="POSTED" v-slot="p">
+                {{ p.row.posted }}
+            </o-table-column>
+            <o-table-column field="category" label="CATEGORIA" v-slot="p">
+                {{ p.row.category.title }}
+            </o-table-column>
+        </o-table>
+        <o-pagination
+        v-if="posts.data && posts.data.length > 0"
+        @change="updatePage"
+        :total="posts.total"
+        v-model:current="currentPage"
+        :range-before="2"
+        :range-after="2"
+        size="small"
+        :simple="false"
+        :rounded="true"
+        :per-page="posts.per_page"
 
 
-        <o-field label="Email" variant ="danger">
-            <o-input type="Email" value="Daniel"></o-input>
-        </o-field >
 
+
+        >
+
+
+        </o-pagination>
 
         </div>
     </template>
     <script>
     export default {
+
+        data() {
+            return {
+                posts: [],
+                isLoading: true,
+                currentPage:1
+            }
+        },
+
+        mounted() {
+            this.listPage()
+        },
+
+
         methods: {
-            clickMe(){
-                alert('oruga');
+            updatePage() {
+
+                setTimeout(() => {
+                    this.listPage()
+                }, 100);
+
+            },
+            listPage(){
+
+                
+                this.isLoading = true
+                this.$axios.get('/api/post?page='+this.currentPage).then(res => {
+                    this.posts = (res.data)
+                    this.isLoading = false
+        })
             }
         }
     }
