@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Http\Requests\Category\StoreRequest;
-use App\Http\Requests\Category\PutRequest;
+// use App\Http\Requests\Category\StoreRequest;
+// use App\Http\Requests\Category\PutRequest;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
 class PostController extends Controller
@@ -17,7 +17,7 @@ class PostController extends Controller
 
         // $categories = Category::paginate(2);
         // return view('dashboard.category.index', compact('categories')); 
-    }
+    }   
 
     public function index()
     {
@@ -26,11 +26,20 @@ class PostController extends Controller
     }
 
   
-    public function store(StoreRequest $request)
-    {
-                return response()->json(Post::create($request->validated())); 
+ public function store(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required',
+        'slug' => 'required',
+        'content' => 'required',
+        'description' => 'required',
+        'category_id' => 'required|integer|exists:categories,id',
+        'posted' => 'required'
+    ]);
 
-    }
+    return response()->json(Post::create($validated));
+}
+
 
     /**
      * Display the specified resource.

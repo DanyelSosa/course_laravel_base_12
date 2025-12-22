@@ -1,4 +1,8 @@
     <template>
+
+        <router-link :to="{name:'save'}">Create</router-link>
+
+
         <div>
         <h1> Post List</h1>
         
@@ -14,6 +18,10 @@
             </o-table-column>
             <o-table-column field="category" label="CATEGORIA" v-slot="p">
                 {{ p.row.category.title }}
+            </o-table-column>
+            <o-table-column field="category" label="ACTIONS" v-slot="p">
+             <router-link :to="{name:'save',params:{'slug': p.row.slug }}">EDIT</router-link>
+
             </o-table-column>
         </o-table>
         <o-pagination

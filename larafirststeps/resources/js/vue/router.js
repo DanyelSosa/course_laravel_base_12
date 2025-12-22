@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import List from "./components/ListComponent.vue";
+import List from "./components/listComponent.vue";
 import Save from "./components/SaveComponent.vue";
 
-const routes = [
+const routes = [ 
   {
     path: "/",          // ✅ RUTA RAÍZ (ESTO FALTABA)
     redirect: "/vue"    // redirige a tu vista real
