@@ -2,8 +2,9 @@ import { createApp } from 'vue'
 import Oruga from '@oruga-ui/oruga-next'
 import App from './App.vue'
 import axios from 'axios'
-
+import '../../css/vue.css'
 import router from './router'
+
 
 const app = createApp(App)
 

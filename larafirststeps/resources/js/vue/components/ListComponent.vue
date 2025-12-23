@@ -22,6 +22,8 @@
             <o-table-column field="category" label="ACTIONS" v-slot="p">
              <router-link :to="{name:'save',params:{'slug': p.row.slug }}">EDIT</router-link>
 
+             <o-button variant="danger" @click="deletePost(p)">DELETE</o-button>
+
             </o-table-column>
         </o-table>
         <o-pagination
@@ -78,7 +80,13 @@
                     this.posts = (res.data)
                     this.isLoading = false
         })
+            },
+            deletePost(row){
+                this.$axios.delete('/api/post/'+row.row.id)
+                this.posts.data.splice(row.index,1)
             }
+
+
         }
     }
     </script>
