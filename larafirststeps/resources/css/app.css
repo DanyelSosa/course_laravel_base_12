@@ -1,7 +1,7 @@
+@import "@oruga-ui/theme-oruga/dist/theme.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@oruga-ui/theme-oruga/dist/theme.css";
 
 
 h1{

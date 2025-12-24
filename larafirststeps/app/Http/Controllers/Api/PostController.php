@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
+
 class PostController extends Controller
 {
     public function all()
@@ -70,4 +71,18 @@ class PostController extends Controller
         $post->delete();
         return response()->json('ok');
     }
+
+    function upload(Request $request, Post $post){
+        $data ['image'] = $filename = time() . '.'. $request->image->extension();
+
+        $request->image->move(public_path('image'), $filename);
+
+        $post->update($data);
+        return response()->json($post);
+    }
+
+
+
+
+
 }
