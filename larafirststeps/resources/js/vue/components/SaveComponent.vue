@@ -44,17 +44,37 @@
   <o-button class="mt-3" variant="primary" @click="send">Send</o-button>
 
   <div class="flex gap-2 mt-5" v-if="post">
-      <o-upload v-model="file">
-      <o-button  tag='button' variant="primary">
-          <o-icon icon="upload"></o-icon>
-          <span>Click to upload</span>
-      </o-button>
+      <o-field :message="fileError" :variant="fileError ? 'danger' : 'primary'">
+        <o-upload v-model="file">
+          <o-button  tag='button' variant="primary">
+            <o-icon icon="upload"></o-icon>
+            <span>Click to upload</span>
+          </o-button>
     </o-upload>
 
+      </o-field>
     <o-button icon-left="upload" @click="upload">
       Upload
     </o-button>
   </div>
+
+  <h3>Drag and Drop</h3>
+        <o-field :message="fileError" :variant="fileError ? 'danger' : 'primary'">
+        <o-upload v-model="filesDaD" multiple drag-drop>
+          
+          <section>
+              <o-icon icon="upload"></o-icon>
+              <span>Dragg and Drop area</span>
+          
+          </section>
+    </o-upload>
+
+      </o-field>
+
+
+      <span v-for="(file, index) in filesDaD" :key="index">
+          {{ file.name }}
+      </span>
 
 
 </template>
@@ -63,7 +83,7 @@
 export default {
   async mounted() {
     if(this.$route.params.slug){
-        this.post = await this.$axios.get("/api/post/slug/"+this.$route.params.slug)
+        this.post = await this.$axios.get(this.$root.urls.getPostBySlug + this.$route.params.slug)
         this.post = this.post.data
         this.initPost()
     }
@@ -90,8 +110,10 @@ export default {
                 category_id: null,
                 posted: ''
             },
+            fileError:'',
             file: null,
-      categories: []
+            filesDaD:[],
+            categories: []
     }
   },
 
@@ -106,17 +128,18 @@ export default {
     },
 
     upload(){
+      this.fileError=''
       const formData = new FormData()
-      console.log(this.file)
-      formData.append('image',this.file)
-      this.$axios.post('/api/post/upload/'+this.post.id, formData,{
+      formData.append('image', this.file)
+      this.$axios.post(this.$root.urls.postUpload + this.post.id, formData,{
         headers: {
           'Content-Type' : 'multipart/form-data'
         }
       }).then((res)=>{
         console.log(res);
       }).catch((error)=>{
-        console.log(error);
+        this.fileError=error.response.data.message
+        
       })
     },
 
@@ -133,7 +156,7 @@ export default {
         this.errors.category_id = ''
     },
     getCategory() {
-      this.$axios.get('/api/category/all').then((res)=> {
+      this.$axios.get(this.$root.urls.getCategoriesAll).then((res)=> {
         this.categories = res.data     
       })
     },
@@ -145,7 +168,7 @@ export default {
         // payload.posted = payload.posted === 'yes' ? 1 : 0
 
         if (!this.post){
-            this.$axios.post('/api/post/', payload).then(res => {
+            this.$axios.post(this.$root.urls.postPost, payload).then(res => {
                 console.log(res)
 
                    this.$oruga.notification.open({
@@ -172,7 +195,7 @@ export default {
                 }
             })
         } else {
-            this.$axios.patch('/api/post/' + this.post.id, payload).then(res => {
+            this.$axios.patch(this.$root.urls.postPatch + this.post.id, payload).then(res => {
 
                     this.$oruga.notification.open({
                     message: 'Record updated succes',
@@ -202,6 +225,28 @@ export default {
             })
         }
     }
+  },
+  watch:{
+    filesDaD: {
+      handler(val){
+        // return console.log(val[val.length-1])
+        this.fileError=''
+        const formData = new FormData()
+        formData.append('image', val[val.length-1])
+        this.$axios.post(this.$root.urls.postUpload+this.post.id, formData,{
+          headers: {
+            'Content-Type' : 'multipart/form-data'
+          }
+        }).then((res)=>{
+          console.log(res);
+        }).catch((error)=>{
+          this.fileError=error.response.data.message
+        
+      })
+      },
+      deep: true
+    }
   }
+
 }
 </script>
